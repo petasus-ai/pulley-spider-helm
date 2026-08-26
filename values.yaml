@@ -1,0 +1,12 @@
+images:
+  registry: registry-1.docker.io
+  repository: goodhyoju/pulley-spider
+  tag: latest
+  pullPolicy: Always
+
+replicaCount: 1
+
+service:
+  type: NodePort
+  port: 8080
+  nodePort: 30188
