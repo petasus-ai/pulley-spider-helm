@@ -1,0 +1,13 @@
+images:
+  registry: registry.gitlab.com
+  repository: sonaproject/pulley-spider
+  tag: stable-3.4
+  pullPolicy: IfNotPresent
+  # pullSecrets: regcred
+
+replicaCount: 1
+
+service:
+  type: NodePort
+  port: 8080
+  nodePort: 30188

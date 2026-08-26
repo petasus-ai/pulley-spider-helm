@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pulley-spider
+  labels:
+    app: pulley-spider
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: pulley-spider
+  template:
+    metadata:
+      labels:
+        app: pulley-spider
+    spec:
+      serviceAccount: pulley-spider
+      serviceAccountName: pulley-spider
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: ""
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+        - key: node.kubernetes.io/not-ready
+          operator: Exists
+          effect: NoSchedule
+      containers:
+        - name: pulley-spider
+          image: {{ .Values.images.registry }}/{{ .Values.images.repository }}:{{ .Values.images.tag }}
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
+          ports:
+            - containerPort: 8080
+      {{- if .Values.images.pullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.images.pullSecrets }}
+      {{- end }}      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pulley-spider-service
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app: pulley-spider
+  ports:
+    - protocol: TCP
+      port: {{ .Values.service.port }}
+      targetPort: 8080
+      nodePort: {{ .Values.service.nodePort }}
