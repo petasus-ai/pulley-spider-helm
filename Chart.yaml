@@ -8,7 +8,7 @@ keywords:
   - pulley
   - pod event
 sources:
-  - https://github.com/sonaproject/pulley-spider
+  - https://gitlab.tde.sktelecom.com/PETASUS/pulley-spider
 maintainers:
   - name: Hyoju Jang
     email: goodhyoju@sk.com
