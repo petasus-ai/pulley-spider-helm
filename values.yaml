@@ -1,6 +1,6 @@
 images:
-  registry: registry.gitlab.com
-  repository: sonaproject/pulley-spider
+  registry: registry.tde.sktelecom.com
+  repository: petasus/pulley-spider
   tag: latest
   pullPolicy: IfNotPresent
   # pullSecrets: regcred
